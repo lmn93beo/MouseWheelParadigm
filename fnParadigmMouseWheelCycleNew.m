@@ -5,7 +5,11 @@ function fnParadigmMouseWheelCycleNew(strctInputs)
 % it under the terms of the GNU General Public License as published by
 % the Free Software Foundation (see GPL.txt)
 
+<<<<<<< HEAD
 global g_strctParadigm g_strctPTB g_strctAcquisitionServer g_strctDAQParams
+=======
+global g_strctParadigm g_strctPTB
+>>>>>>> d042f23bc01d33ceaabfbba2f73ea05b2aa31d42
 
 fCurrTime = GetSecs;
 
@@ -209,11 +213,16 @@ if ~isempty(g_strctParadigm.m_strctCurrentTrial)
    fTargetPosRange = g_strctParadigm.TargetPosRange.Buffer(1,:,g_strctParadigm.TargetPosRange.BufferIdx);
    fStimulusSizePix =g_strctParadigm.m_strctCurrentTrial.m_fStimulusSizePix;
    hTexturePointer = g_strctParadigm.m_strctDesign.m_astrctMedia(g_strctParadigm.m_strctCurrentTrial.m_iStimulusIndex).m_aiMediaToHandleIndexInBuffer(1);
+<<<<<<< HEAD
 
    aiTextureSize = g_strctParadigm.m_strctTexturesBuffer.m_a2iTextureSize(:,hTexturePointer)';
    aiStimulusRect = g_strctPTB.m_fScale * fnComputeStimulusRect(fStimulusSizePix, aiTextureSize, pt2fStimulusPos);
 
    
+=======
+   aiTextureSize = g_strctParadigm.m_strctTexturesBuffer.m_a2iTextureSize(:,hTexturePointer)';
+   aiStimulusRect = g_strctPTB.m_fScale * fnComputeStimulusRect(fStimulusSizePix, aiTextureSize, pt2fStimulusPos);
+>>>>>>> d042f23bc01d33ceaabfbba2f73ea05b2aa31d42
    
 StopTime = g_strctParadigm.StopTime.Buffer(1,:,g_strctParadigm.StopTime.BufferIdx);
 % StimulusWidth = g_strctParadigm.m_strctCurrentTrial.m_pt2fStimulusPos(3)-g_strctParadigm.m_strctCurrentTrial.m_pt2fStimulusPos(1);
@@ -224,6 +233,7 @@ if ismember('target', lower(g_strctParadigm.m_strctCurrentTrial.m_strctMedia.m_a
 %        abs(g_strctParadigm.m_strctCurrentTrial.m_fVoltageDiff) < fTargetVoltageDiffRange && ...
 %        abs(g_strctParadigm.m_strctCurrentTrial.m_pt2fStimulusPos(1)-aiScreenSize(3)/2) < fTargetPosRange && ~g_strctParadigm.m_bGivenJuiceperTrial
 %        fJuiceTimeMS = g_strctParadigm.JuiceTimeMS.Buffer(g_strctParadigm.JuiceTimeMS.BufferIdx);
+<<<<<<< HEAD
 
         if ~g_strctParadigm.m_strctCurrentTrial.m_bGivenJuice && ...
                    StopTime > WaitTime && ...
@@ -244,6 +254,25 @@ elseif ~g_strctParadigm.m_strctCurrentTrial.m_bGivenJuice && ...
                 aiStimulusRect(3)-aiScreenSize(3)/2 < fTargetPosRange &&...
                 aiStimulusRect(1)-aiScreenSize(3)/2 > -fTargetPosRange &&...
                ~g_strctParadigm.m_bGivenJuiceperTrial  
+=======
+      if ~g_strctParadigm.m_strctCurrentTrial.m_bGivenJuice && ...
+              StopTime > WaitTime && ...
+              aiStimulusRect(3)-aiScreenSize(3)/2 < fTargetPosRange && ...
+              aiStimulusRect(1)-aiScreenSize(3)/2 > -fTargetPosRange && ...
+              ~g_strctParadigm.m_bGivenJuiceperTrial
+          % JUICE
+          fJuiceTimeMS = g_strctParadigm.JuiceTimeMS.Buffer(g_strctParadigm.JuiceTimeMS.BufferIdx);
+          fnParadigmToKofikoComm('newjuice', fJuiceTimeMS);
+
+          strctTrial.m_bGivenJuice = true;
+          g_strctParadigm.m_bGivenJuiceperTrial = true;
+          fnTsSetVarParadigm('GivenJuice',strctTrial.m_bGivenJuice);
+          fnTsSetVarParadigm('CorrectStop',g_strctParadigm.m_strctCurrentTrial.m_iStimulusIndex);
+      end
+elseif ~g_strctParadigm.m_strctCurrentTrial.m_bGivenJuice && ...
+        StopTime > WaitTime && ...
+       abs(g_strctParadigm.m_strctCurrentTrial.m_pt2fStimulusPos(1)-aiScreenSize(3)/2) < fTargetPosRange && ~g_strctParadigm.m_bGivenJuiceperTrial  
+>>>>>>> d042f23bc01d33ceaabfbba2f73ea05b2aa31d42
    % record that the mouse stopped at the wrong shape JCL 9/24/13      
    fnTsSetVarParadigm('IncorrectStop',g_strctParadigm.m_strctCurrentTrial.m_iStimulusIndex);
    % only 1 incorrect stop marked at a time

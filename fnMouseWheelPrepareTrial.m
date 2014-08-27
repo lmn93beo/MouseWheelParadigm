@@ -113,8 +113,15 @@ else
     if abs(strctTrial.m_fVoltageDiff) > 1e4 % Abrupt Change means nothing!
         speed = 0;
     else
+<<<<<<< HEAD
         if p2fLastStimulusPos(movable)<strctTrial.m_fStimulusSizePix || p2fLastStimulusPos(movable) > aiScreenSize(movable+2)-strctTrial.m_fStimulusSizePix
             speed = max(0, strctTrial.m_fVoltageDiff/iMoveStepPix);
+=======
+        % stimulus cannot move backwards if it's out of the box
+        % to prevent kofiko from re-choosing new stimulus
+        if p2fLastStimulusPos(movable)<strctTrial.m_fStimulusSizePix || p2fLastStimulusPos(movable)>aiScreenSize(movable+2)-strctTrial.m_fStimulusSizePix
+            speed = min(0, strctTrial.m_fVoltageDiff/iMoveStepPix);
+>>>>>>> d042f23bc01d33ceaabfbba2f73ea05b2aa31d42
         else
             speed = strctTrial.m_fVoltageDiff/iMoveStepPix; %with backward
         end
